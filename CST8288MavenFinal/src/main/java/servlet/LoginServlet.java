@@ -1,13 +1,13 @@
 package servlet;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import com.example.model.UserDTO;
-import com.example.service.UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.UserDTO;
+import service.UserService;
 
 public class LoginServlet extends HttpServlet {
     private UserService userService = new UserService();
