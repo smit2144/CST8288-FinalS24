@@ -28,4 +28,11 @@ public class UserDTO {
     public void setPassword(String password) { this.password = password; }
     public String getUserType() { return userType; }
     public void setUserType(String userType) { this.userType = userType; }
+
+	@Override
+	public String toString() {
+		return "UserDTO [userId=" + userId + ", name=" + name + ", email=" + email + ", password=" + password
+				+ ", userType=" + userType + "]";
+	}
 }
+
