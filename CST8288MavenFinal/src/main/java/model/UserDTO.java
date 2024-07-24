@@ -10,8 +10,9 @@ public class UserDTO {
     // Constructor, getters, and setters
     public UserDTO() {}
 
-    public UserDTO(String name, String email, String password, String userType) {
-        this.name = name;
+    public UserDTO(int userId, String name, String email, String password, String userType) {
+        this.userId = userId;
+    	this.name = name;
         this.email = email;
         this.password = password;
         this.userType = userType;
