@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.UserDTO;
-import util.DBConnections;
+import util.DBConnection;
 
 public class RegistrationDAOImpl implements RegistrationDAO {
     private static final String INSERT_USER_SQL = "INSERT INTO users (name, email, password, userType) VALUES (?, ?, ?, ?)";
@@ -13,7 +13,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 
     @Override
     public boolean addUser(UserDTO user) {
-        try (Connection connection = DBConnections.getConnection();
+        try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
@@ -30,7 +30,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
     @Override
     public UserDTO getUserByEmail(String email) {
         UserDTO user = null;
-        try (Connection connection = DBConnections.getConnection();
+        try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL)) {
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
