@@ -1,6 +1,7 @@
 package dao;
 
 import model.InventoryDTO;
+import java.util.List;
 
 
 /**
@@ -11,5 +12,8 @@ import model.InventoryDTO;
  * @author Hussein
  */
 public interface InventoryDAO {
-
+    boolean addItem(InventoryDTO item);
+    boolean updateItem(InventoryDTO item);
+    InventoryDTO getItemById(int itemID);
+    List<InventoryDTO> getAllItems();
 }
