@@ -8,13 +8,10 @@ import model.UserDTO;
 import util.DBConnection;
 
 public class RegistrationDAOImpl implements RegistrationDAO {
-    private static final String INSERT_USER_SQL = "INSERT INTO users (name, email, password, userType) VALUES (?, ?, ?, ?)";
-    private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
-
     @Override
     public boolean addUser(UserDTO user) {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (Name, Email, Password, UserType) VALUES (?, ?, ?, ?)")) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
@@ -23,23 +20,25 @@ public class RegistrationDAOImpl implements RegistrationDAO {
             return result > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     @Override
     public UserDTO getUserByEmail(String email) {
         UserDTO user = null;
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE Email = ?")) {
             preparedStatement.setString(1, email);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                user = new UserDTO();
-                user.setName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setUserType(rs.getString("userType"));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new UserDTO();
+                    user.setUserId(resultSet.getInt("UserId"));
+                    user.setName(resultSet.getString("Name"));
+                    user.setEmail(resultSet.getString("Email"));
+                    user.setPassword(resultSet.getString("Password"));
+                    user.setUserType(resultSet.getString("UserType"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
