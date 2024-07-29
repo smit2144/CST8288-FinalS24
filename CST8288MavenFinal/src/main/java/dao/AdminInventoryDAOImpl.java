@@ -18,7 +18,7 @@ import util.DBConnection;
  * 
  * @author Hussein
  */
-public class AdminInventoryDAOImpl implements AdminInventoryDAO{
+public class AdminInventoryDAOImpl implements AdminInventoryDAO {
     /**
      * Retrieves all inventory items from the database.
      * 
@@ -70,6 +70,7 @@ public class AdminInventoryDAOImpl implements AdminInventoryDAO{
 
         return inventoryList;
     }
+
     /**
      * Adds a new inventory item to the database.
      * 
@@ -162,7 +163,6 @@ public class AdminInventoryDAOImpl implements AdminInventoryDAO{
         return item;
     }
 
-
     /**
      * Updates an existing inventory item in the database.
      * 
@@ -233,6 +233,7 @@ public class AdminInventoryDAOImpl implements AdminInventoryDAO{
             }
         }
     }
+
     /**
      * Retrieves all surplus inventory items from the database.
      * 
@@ -286,77 +287,15 @@ public class AdminInventoryDAOImpl implements AdminInventoryDAO{
     }
 
     /**
-     * Retrieves inventory items expiring within one week from the current date.
-     * 
-     * @return A list of InventoryDTO objects representing expiring inventory items.
-     * @throws SQLException If an SQL exception occurs during the retrieval process.
-     */
-    public List<InventoryDTO> getExpiringItemsWithinOneWeek() throws SQLException {
-        List<InventoryDTO> expiringItems = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DBConnection.getConnection();
-            String sql = "SELECT * FROM fooditems WHERE ExpirationDate BETWEEN ? AND ?";
-            preparedStatement = connection.prepareStatement(sql);
-
-            // Calculate dates for one week from today
-            LocalDate today = LocalDate.now();
-            LocalDate oneWeekLater = today.plusWeeks(1);
-
-            // Set the start and end dates for the query
-            preparedStatement.setDate(1, java.sql.Date.valueOf(today));
-            preparedStatement.setDate(2, java.sql.Date.valueOf(oneWeekLater));
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                // Populate item details from result set
-                InventoryDTO item = new InventoryDTO();
-                item.setItemID(resultSet.getInt("ItemId"));
-                item.setUserID(resultSet.getInt("UserId"));
-                item.setName(resultSet.getString("Name"));
-                item.setQuantity(resultSet.getInt("Quantity"));
-                item.setExpirationDate(resultSet.getDate("ExpirationDate"));
-                item.setSurplusStatus(resultSet.getString("SurplusStatus"));
-                item.setPlan(resultSet.getString("Plan"));
-                item.setPrice(resultSet.getDouble("Price"));
-                item.setLocation(resultSet.getString("Location")); // Include location field
-                item.setFoodGroup(resultSet.getString("FoodGroup")); // Include food group field
-
-                expiringItems.add(item);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            // Close resources
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-
-        return expiringItems;
-    }
-
-    /**
      * Retrieves all users from the database.
      * 
      * @return A list of UserDTO objects representing all users.
-     * @throws SQLException If an SQL exception occurs during the retrieval process.
      */
-    public List<UserDTO> getAllUsers() throws SQLException {
+    public List<UserDTO> getAllUsers() {
+        List<UserDTO> userList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        List<UserDTO> users = new ArrayList<>();
 
         try {
             connection = DBConnection.getConnection();
@@ -365,28 +304,123 @@ public class AdminInventoryDAOImpl implements AdminInventoryDAO{
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                int userId = resultSet.getInt("UserId");
-                String name = resultSet.getString("Name");
-                String email = resultSet.getString("Email");
-                String password = resultSet.getString("Password");
-                String userType = resultSet.getString("UserType");
-
-                UserDTO user = new UserDTO(userId, name, email, password, userType);
-                users.add(user);
+                UserDTO user = new UserDTO();
+                user.setUserId(resultSet.getInt("UserId"));
+                user.setName(resultSet.getString("Name"));
+                user.setEmail(resultSet.getString("Email"));
+                user.setPassword(resultSet.getString("Password"));
+                user.setUserType(resultSet.getString("UserType")); // UserType corresponds to user role
+                userList.add(user);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            // Close resources
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
 
-        return users;
+        return userList;
     }
+
+    /**
+     * Retrieves a user by their ID from the database.
+     * 
+     * @param userId The ID of the user to retrieve.
+     * @return The UserDTO object representing the retrieved user.
+     */
+    public UserDTO getUserById(int userId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        UserDTO user = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM users WHERE UserId = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, userId);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                user = new UserDTO();
+                user.setUserId(resultSet.getInt("UserId"));
+                user.setName(resultSet.getString("Name"));
+                user.setEmail(resultSet.getString("Email"));
+                user.setPassword(resultSet.getString("Password"));
+                user.setUserType(resultSet.getString("UserType")); // UserType corresponds to user role
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user;
+    }
+
+	@Override
+	public boolean addItem(InventoryDTO item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateItem(InventoryDTO item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public InventoryDTO getItemById(int itemID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<InventoryDTO> getAllItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<InventoryDTO> getSurplusItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<InventoryDTO> getExpiringItemsWithinOneWeek() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<InventoryDTO> getSurplusInventory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
+

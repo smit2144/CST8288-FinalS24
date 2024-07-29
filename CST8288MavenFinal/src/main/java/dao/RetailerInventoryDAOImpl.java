@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Implementation of InventoryDAO for managing inventory for retailers.
+ * Provides methods for adding, updating, retrieving, and listing inventory items.
  */
 public class RetailerInventoryDAOImpl implements InventoryDAO {
     private static final String INSERT_ITEM_SQL = "INSERT INTO inventory (userID, name, quantity, expirationDate, surplusStatus, plan, price, location, foodGroup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -16,6 +17,12 @@ public class RetailerInventoryDAOImpl implements InventoryDAO {
     private static final String SELECT_ALL_ITEMS = "SELECT * FROM inventory";
     private static final String SELECT_SURPLUS_ITEMS = "SELECT * FROM inventory WHERE expirationDate <= ? AND surplusStatus = 'Excess'";
 
+    /**
+     * Adds a new item to the inventory.
+     * 
+     * @param item The InventoryDTO object representing the item to be added.
+     * @return true if the item was successfully added, false otherwise.
+     */
     @Override
     public boolean addItem(InventoryDTO item) {
         try (Connection connection = DBConnection.getConnection();
@@ -37,6 +44,12 @@ public class RetailerInventoryDAOImpl implements InventoryDAO {
         }
     }
 
+    /**
+     * Updates an existing item in the inventory.
+     * 
+     * @param item The InventoryDTO object representing the item to be updated.
+     * @return true if the item was successfully updated, false otherwise.
+     */
     @Override
     public boolean updateItem(InventoryDTO item) {
         try (Connection connection = DBConnection.getConnection();
@@ -58,6 +71,12 @@ public class RetailerInventoryDAOImpl implements InventoryDAO {
         }
     }
 
+    /**
+     * Retrieves an item by its ID.
+     * 
+     * @param itemID The ID of the item to be retrieved.
+     * @return The InventoryDTO object representing the item with the specified ID, or null if not found.
+     */
     @Override
     public InventoryDTO getItemById(int itemID) {
         InventoryDTO item = null;
@@ -84,6 +103,11 @@ public class RetailerInventoryDAOImpl implements InventoryDAO {
         return item;
     }
 
+    /**
+     * Retrieves all items in the inventory.
+     * 
+     * @return A list of InventoryDTO objects representing all items.
+     */
     @Override
     public List<InventoryDTO> getAllItems() {
         List<InventoryDTO> items = new ArrayList<>();
@@ -110,6 +134,12 @@ public class RetailerInventoryDAOImpl implements InventoryDAO {
         return items;
     }
 
+    /**
+     * Retrieves surplus items from the inventory.
+     * Surplus items are those that are nearing expiration within one week and flagged as excess.
+     * 
+     * @return A list of InventoryDTO objects representing surplus items.
+     */
     @Override
     public List<InventoryDTO> getSurplusItems() {
         List<InventoryDTO> items = new ArrayList<>();
