@@ -1,8 +1,8 @@
 package dao;
 
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.List;
+
 import model.InventoryDTO;
 import model.UserDTO;
 
@@ -37,6 +37,13 @@ public interface AdminInventoryDAO extends InventoryDAO {
     public void deleteInventory(int itemId);
     
     /**
+     * Retrieves an inventory item by ID.
+     * @param itemId, ID of the inventory item.
+     * @return InventoryDTO object representing the inventory item.
+     */
+    InventoryDTO getInventoryById(int itemId);
+    
+    /**
      * Retrieve Surplus Inventory Items.
      *
      * @return A list of InventoryDTO objects having surplus inventory items.
@@ -58,5 +65,8 @@ public interface AdminInventoryDAO extends InventoryDAO {
      * @throws SQLException, in case SQL exception occurs during retrieval process.
      */
     public List<UserDTO> getAllUsers() throws SQLException;
+    
+    List<InventoryDTO> getSurplusInventory();
+
     
 }

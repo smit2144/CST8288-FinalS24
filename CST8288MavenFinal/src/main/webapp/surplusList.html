@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surplus Food List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+        select {
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Surplus Food List</h1>
+
+    <!-- Form for updating surplus item status -->
+    <form action="/listSurplus" method="post">
+        <input type="hidden" name="action" value="updateStatus">
+        <h2>Update Surplus Status</h2>
+        <label for="itemId">Item ID:</label>
+        <input type="number" id="itemId" name="itemId" required><br>
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+            <option value="donation">Donation</option>
+            <option value="sale">Sale</option>
+        </select><br>
+        <button type="submit">Update Status</button>
+    </form>
+
+    <h2>Surplus Items</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Expiration Date</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Food Group</th>
+                <th>Plan</th>
+            </tr>
+        </thead>
+        <tbody id="surplusItemsTableBody">
+            <!-- JavaScript will populate this table -->
+        </tbody>
+    </table>
+
+    <script>
+        // Example data - replace with real data from server
+        const surplusItems = [
+            {
+                id: 1,
+                name: 'Apples',
+                quantity: 100,
+                expirationDate: '2024-08-05',
+                status: 'donation',
+                price: 0.5,
+                location: 'Aisle 3',
+                foodGroup: 'Fruits',
+                plan: 'Plan A'
+            },
+            
+        ];
+
+        const tableBody = document.getElementById('surplusItemsTableBody');
+
+        surplusItems.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td>${item.expirationDate}</td>
+                <td>${item.status}</td>
+                <td>${item.price}</td>
+                <td>${item.location}</td>
+                <td>${item.foodGroup}</td>
+                <td>${item.plan}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>

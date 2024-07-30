@@ -389,4 +389,14 @@ public class AdminInventoryDAOImpl implements AdminInventoryDAO{
 
         return users;
     }
+	@Override
+	public List<InventoryDTO> getInventoryByFoodGroup(String foodGroup) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<InventoryDTO> getSurplusInventory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
