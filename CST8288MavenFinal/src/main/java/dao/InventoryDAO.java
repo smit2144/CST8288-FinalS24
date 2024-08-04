@@ -50,4 +50,12 @@ public interface InventoryDAO {
      * @return A list of InventoryDTO objects representing surplus items.
      */
     List<InventoryDTO> getSurplusItems(); // New method for surplus items
+    
+    /**
+     * Deletes an item from the inventory.
+     * 
+     * @param itemID The ID of the item to be deleted.
+     * @return true if the item was successfully deleted, false otherwise.
+     */
+    boolean deleteItem(int itemID); // New method for deleting items
 }

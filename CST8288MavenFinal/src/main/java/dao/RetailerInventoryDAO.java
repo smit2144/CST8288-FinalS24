@@ -33,7 +33,7 @@ public interface RetailerInventoryDAO extends InventoryDAO{
      * Deletes an inventory item by its ID.
      * @param itemId The ID of the inventory item to delete.
      */
-    public void deleteInventory(int itemId);
+    public boolean deleteInventory(int itemId);
     /**
      * Retrieves surplus inventory items associated with a specific retailer.
      * @param userId The ID of the retailer whose surplus inventory items are to be retrieved.
@@ -47,4 +47,6 @@ public interface RetailerInventoryDAO extends InventoryDAO{
      * @throws SQLException If an SQL exception occurs during the retrieval process.
      */
     public List<InventoryDTO> getExpiringItemsWithinOneWeek(int userId) throws SQLException;
+    
+    
 }

@@ -15,26 +15,27 @@ public interface AdminInventoryDAO extends InventoryDAO {
      * Retrieves all inventory items.
      * @return list of InventoryDTO objects representing inventory items.
      */
-	public List<InventoryDTO> getAllInventory();
-	
-    /**
-     * Adds a new inventory item.
-     * @param inventory an instance of InventoryDTO object representing new inventory inventory item to be added .
-     */
-    public void addInventory(InventoryDTO inventory);
+    List<InventoryDTO> getAllInventory();
     
     /**
-     * Update inventory item
-     * @param inventory , updated inventory item
+     * Adds a new inventory item.
+     * @param inventory an instance of InventoryDTO object representing new inventory item to be added.
      */
-    public void updateInventory(InventoryDTO inventory);
+    void addInventory(InventoryDTO inventory);
+    
+    /**
+     * Update inventory item.
+     * @param inventory, updated inventory item.
+     */
+    void updateInventory(InventoryDTO inventory);
     
     /**
      * Delete an inventory item.
      *
-     * @param itemId, ID of the deleted item.
+     * @param itemId, ID of the item to be deleted.
+     * @return boolean indicating whether the deletion was successful.
      */
-    public void deleteInventory(int itemId);
+    boolean deleteInventory(int itemId);
     
     /**
      * Retrieves an inventory item by ID.
@@ -44,19 +45,19 @@ public interface AdminInventoryDAO extends InventoryDAO {
     InventoryDTO getInventoryById(int itemId);
     
     /**
-     * Retrieve Surplus Inventory Items.
+     * Retrieve surplus inventory items.
      *
      * @return A list of InventoryDTO objects having surplus inventory items.
      */
-    public List<InventoryDTO> getSurplus();
+    List<InventoryDTO> getSurplus();
     
     /**
-     * Retrieve all inventory items with expiry-date within a week.
+     * Retrieve all inventory items with expiry date within a week.
      *
      * @return A list of InventoryDTO objects.
      * @throws SQLException, in case SQL exception occurs during retrieval process.
      */
-    public List<InventoryDTO> getExpiringItemsWithinOneWeek()throws SQLException;
+    List<InventoryDTO> getExpiringItemsWithinOneWeek() throws SQLException;
     
     /**
      * Retrieve all users.
@@ -64,9 +65,12 @@ public interface AdminInventoryDAO extends InventoryDAO {
      * @return A list of UserDTO objects.
      * @throws SQLException, in case SQL exception occurs during retrieval process.
      */
-    public List<UserDTO> getAllUsers() throws SQLException;
+    List<UserDTO> getAllUsers() throws SQLException;
     
+    /**
+     * Retrieve surplus inventory items.
+     *
+     * @return A list of InventoryDTO objects having surplus inventory items.
+     */
     List<InventoryDTO> getSurplusInventory();
-
-    
 }
