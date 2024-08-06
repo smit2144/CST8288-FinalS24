@@ -1,6 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,7 +13,8 @@ import dao.AdminInventoryDAO;
 import dao.AdminInventoryDAOImpl;
 import model.InventoryDTO;
 
-@WebServlet("/admin/addInventory")
+//quelly
+@WebServlet("/servlet/AdminAddInventory")
 public class AdminAddInventoryServlet extends HttpServlet {
 
     private AdminInventoryDAO inventoryDAO;
@@ -26,7 +30,11 @@ public class AdminAddInventoryServlet extends HttpServlet {
             // Retrieve parameters from the request
             String name = request.getParameter("name");
             int quantity = Integer.parseInt(request.getParameter("quantity"));
-            java.util.Date expirationDate = new java.util.Date(request.getParameter("expirationDate"));
+
+            // Parse the expiration date using SimpleDateFormat
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date expirationDate = sdf.parse(request.getParameter("expirationDate"));
+
             String surplusStatus = request.getParameter("surplusStatus");
             String plan = request.getParameter("plan");
             double price = Double.parseDouble(request.getParameter("price"));
@@ -48,10 +56,13 @@ public class AdminAddInventoryServlet extends HttpServlet {
             inventoryDAO.addInventory(inventory);
 
             // Redirect to the inventory management page on success
-            response.sendRedirect("inventory.jsp");
+            response.sendRedirect("AdminDashboard.jsp");
         } catch (NumberFormatException e) {
             // Handle invalid number format (e.g., quantity, price)
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input format");
+        } catch (ParseException e) {
+            // Handle invalid date format
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid date format");
         } catch (Exception e) {
             // Handle general exceptions
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while adding the inventory item");
