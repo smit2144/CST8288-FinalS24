@@ -10,6 +10,7 @@ import model.UserDTO;
 import service.UserService;
 
 public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
     private UserService userService = new UserService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -21,7 +22,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            response.sendRedirect("dashboard.jsp");
+            response.sendRedirect("dashboard.jsp"); // Redirect to a dashboard or home page
         } else {
             response.sendRedirect("login.jsp?error=true");
         }

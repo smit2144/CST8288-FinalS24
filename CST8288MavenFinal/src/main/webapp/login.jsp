@@ -14,15 +14,9 @@
         
         <input type="submit" value="Login">
     </form>
-    
-    
-    
     <%
-        String error = request.getParameter("error");
-        if ("true".equals(error)) {
-    %>
-        <p style="color:red;">Invalid email or password. Please try again.</p>
-    <%
+        if (request.getParameter("error") != null) {
+            out.println("<p style='color:red;'>Invalid email or password. Please try again.</p>");
         }
     %>
 </body>

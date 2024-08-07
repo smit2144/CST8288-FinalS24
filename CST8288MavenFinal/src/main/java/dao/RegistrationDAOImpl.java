@@ -13,13 +13,24 @@ public class RegistrationDAOImpl implements RegistrationDAO {
     public boolean addUser(UserDTO user) {
         String sql = "INSERT INTO Users (Name, Email, Password, UserType) VALUES (?, ?, ?, ?)";
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getUserType());
+
             int rowsInserted = statement.executeUpdate();
-            return rowsInserted > 0;
+
+            if (rowsInserted > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        user.setUserId(generatedKeys.getInt(1));
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
