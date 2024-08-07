@@ -5,18 +5,20 @@ import model.TransactionDTO;
 
 /**
  * Interface for managing transactions in the database.
- * Defines methods to retrieve transaction based on user ID.
  * @author Hussein
  */
+public interface TransactionDAO {
+    /**
+     * Adds a transaction to the database.
+     * @param transaction The TransactionDTO object representing the transaction to be added.
+     * @return true if the transaction was successfully added, false otherwise.
+     */
+    boolean addTransaction(TransactionDTO transaction);
 
-public interface TransactionDAO{
-
-	 /**
-     * Retrieve transactions related to a specific user.
-     * @param userId of the user whose transactions need to be retrieved.
+    /**
+     * Retrieves transactions related to a specific user.
+     * @param userID The ID of the user whose transactions need to be retrieved.
      * @return A list of TransactionDTO objects representing all transactions related to that user.
      */
-
-	List<TransactionDTO> getTransactionsByUserID (int userID);
-	
+    List<TransactionDTO> getTransactionsByUserID(int userID);
 }

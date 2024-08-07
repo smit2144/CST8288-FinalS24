@@ -170,5 +170,10 @@ public class TransactionDAOImpl implements TransactionDAO {
 
         return transactions;
     }
+	@Override
+	public boolean addTransaction(TransactionDTO transaction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
       
 }

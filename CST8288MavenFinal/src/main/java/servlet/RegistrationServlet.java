@@ -18,7 +18,7 @@ public class RegistrationServlet extends HttpServlet {
         String password = request.getParameter("password");
         String userType = request.getParameter("userType");
 
-        UserDTO user = new UserDTO(name, email, password, userType);
+        UserDTO user = new UserDTO(0, name, email, password, userType);
         boolean isRegistered = userService.registerUser(user);
 
         if (isRegistered) {
