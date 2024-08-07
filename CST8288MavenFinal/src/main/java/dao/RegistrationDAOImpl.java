@@ -8,19 +8,18 @@ import model.UserDTO;
 import util.DBConnection;
 
 public class RegistrationDAOImpl implements RegistrationDAO {
-    private static final String INSERT_USER_SQL = "INSERT INTO Users (Name, Email, Password, UserType) VALUES (?, ?, ?, ?)";
-    private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM Users WHERE Email = ?";
 
     @Override
     public boolean addUser(UserDTO user) {
+        String sql = "INSERT INTO Users (Name, Email, Password, UserType) VALUES (?, ?, ?, ?)";
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setString(4, user.getUserType());
-            int result = preparedStatement.executeUpdate();
-            return result > 0;
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getUserType());
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -29,21 +28,24 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 
     @Override
     public UserDTO getUserByEmail(String email) {
-        UserDTO user = null;
+        String sql = "SELECT * FROM Users WHERE Email = ?";
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL)) {
-            preparedStatement.setString(1, email);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                user = new UserDTO();
-                user.setName(rs.getString("Name"));
-                user.setEmail(rs.getString("Email"));
-                user.setPassword(rs.getString("Password"));
-                user.setUserType(rs.getString("UserType"));
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    UserDTO user = new UserDTO();
+                    user.setUserId(resultSet.getInt("UserID"));
+                    user.setName(resultSet.getString("Name"));
+                    user.setEmail(resultSet.getString("Email"));
+                    user.setPassword(resultSet.getString("Password"));
+                    user.setUserType(resultSet.getString("UserType"));
+                    return user;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return null;
     }
 }
