@@ -8,8 +8,8 @@ import model.UserDTO;
 import util.DBConnection;
 
 public class RegistrationDAOImpl implements RegistrationDAO {
-    private static final String INSERT_USER_SQL = "INSERT INTO users (name, email, password, userType) VALUES (?, ?, ?, ?)";
-    private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
+    private static final String INSERT_USER_SQL = "INSERT INTO Users (Name, Email, Password, UserType) VALUES (?, ?, ?, ?)";
+    private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM Users WHERE Email = ?";
 
     @Override
     public boolean addUser(UserDTO user) {
@@ -36,10 +36,10 @@ public class RegistrationDAOImpl implements RegistrationDAO {
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 user = new UserDTO();
-                user.setName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setUserType(rs.getString("userType"));
+                user.setName(rs.getString("Name"));
+                user.setEmail(rs.getString("Email"));
+                user.setPassword(rs.getString("Password"));
+                user.setUserType(rs.getString("UserType"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
