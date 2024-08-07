@@ -4,44 +4,39 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Utility class to manage database connection
- * Singleton Design pattern applied on this class 
- * 
- * @author Hussein
- */
 public class DBConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/FoodWasteReductionDB";
-    private static final String USER = "root";
-    private static final String PASSWORD = "yourpassword";
+   
+	private static DBConnection dbConnect;
+    private static Connection conn;
     
-    private static Connection connection = null;
-    
-    private DBConnection() {}
-    
-    public static Connection getConnection() throws SQLException{
-    	 try {
-             if (connection == null) { 
-             // Load the MySQL JDBC driver
-             Class.forName("com.mysql.cj.jdbc.Driver");
-             }
-             // Establish the database connection
-             return DriverManager.getConnection(URL, USER, PASSWORD);
-         } catch (ClassNotFoundException e) {
-             // Handle ClassNotFoundException
-             e.printStackTrace();
-             throw new SQLException("Failed to load database driver");
-         }
+    private DBConnection() throws SQLException {
+        try {
+            String driver = "com.mysql.cj.jdbc.Driver";
+            String url = "jdbc:mysql://localhost:3306/FoodWasteReductionDB";
+            String user = "root";
+            String pass = "Wartown_221";
+            
+            Class.forName(driver);
+            conn = DriverManager.getConnection(url, user, pass);
+        } catch (ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
-    
-    public static void closeConnection(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                // Handle SQLException
-                e.printStackTrace();
+
+    public static synchronized DBConnection getInstance() throws SQLException {
+        DBConnection dbConn = DBConnection.dbConnect;
+        if (dbConn == null) {
+            synchronized (DBConnection.class) {
+                dbConn = DBConnection.dbConnect;
+                if (dbConn == null) {
+                    DBConnection.dbConnect = dbConn = new DBConnection();
+                }
             }
         }
+        return dbConn;
+    }     
+    
+    public Connection getConnection() {
+        return conn;
     }
 }
