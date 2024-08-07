@@ -399,4 +399,40 @@ public class AdminInventoryDAOImpl implements AdminInventoryDAO {
             }
         }
     }
+
+	@Override
+	public boolean addItem(InventoryDTO item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateItem(InventoryDTO item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public InventoryDTO getItemById(int itemID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<InventoryDTO> getAllItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<InventoryDTO> getSurplusItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteItem(int itemID) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
