@@ -5,36 +5,50 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Utility class to manage database connection
- * Singleton Design pattern applied on this class 
- * 
- * @author Hussein
+ * Utility class for managing database connections using the Singleton pattern.
  */
 public class DBConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/FoodWasteReductionDB";
-    private static final String USER = "root";
-    private static final String PASSWORD = "yourpassword";
-    
-    private static Connection connection = null;
-    
+    // JDBC URL, username, and password for connecting to the database
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/FoodWasteReductionDB";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "yA262098";
+
+    // Singleton instance, volatile to ensure visibility of changes across threads
+    private static volatile DBConnection instance;
+    private Connection connection;
+
+    // Private constructor to prevent instantiation
     private DBConnection() {}
-    
-    public static Connection getConnection() throws SQLException{
-    	 try {
-             if (connection == null) { 
-             // Load the MySQL JDBC driver
-             Class.forName("com.mysql.cj.jdbc.Driver");
-             }
-             // Establish the database connection
-             return DriverManager.getConnection(URL, USER, PASSWORD);
-         } catch (ClassNotFoundException e) {
-             // Handle ClassNotFoundException
-             e.printStackTrace();
-             throw new SQLException("Failed to load database driver");
-         }
+
+    // Method to obtain a database connection
+    public static DBConnection getInstance() {
+        if (instance == null) {
+            synchronized (DBConnection.class) {
+                if (instance == null) {
+                    instance = new DBConnection();
+                }
+            }
+        }
+        return instance;
     }
-    
-    public static void closeConnection(Connection connection) {
+
+    // Method to obtain a database connection
+    public Connection getConnection() {
+        // Establish the database connection
+        Connection connection;
+		try {
+			connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+		    System.out.println(connection);
+	        return connection;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+    }
+
+    // Method to close a database connection
+    public void closeConnection(Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
