@@ -1,7 +1,10 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Add Food Item</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+    
 </head>
 <body>
     <h2>Add Food Item</h2>

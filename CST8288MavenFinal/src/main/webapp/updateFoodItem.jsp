@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Update Food Item</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+    
 </head>
 <body>
     <h2>Update Food Item</h2>

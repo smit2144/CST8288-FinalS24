@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>User Registration</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+    
 </head>
 <body>
     <h2>User Registration</h2>

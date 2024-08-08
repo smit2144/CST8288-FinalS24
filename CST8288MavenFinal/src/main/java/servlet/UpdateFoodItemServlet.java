@@ -10,7 +10,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class UpdateFoodItemServlet extends HttpServlet {
-    private FoodItemService foodItemService = new FoodItemService();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private FoodItemService foodItemService = new FoodItemService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int itemId = Integer.parseInt(request.getParameter("itemId"));

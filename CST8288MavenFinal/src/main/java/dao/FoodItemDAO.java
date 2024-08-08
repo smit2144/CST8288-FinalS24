@@ -10,8 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodItemDAO {
+public class FoodItemDAO implements InventoryDAO {
     
+    @Override
     public void addFoodItem(FoodItem foodItem) {
         try (Connection connection = DBConnection.getConnection()) {
             String sql = "INSERT INTO FoodItems (UserID, Name, Quantity, ExpirationDate, SurplusStatus, Plan, Price, Location, FoodGroup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -31,6 +32,7 @@ public class FoodItemDAO {
         }
     }
 
+    @Override
     public void updateFoodItem(FoodItem foodItem) {
         try (Connection connection = DBConnection.getConnection()) {
             String sql = "UPDATE FoodItems SET UserID = ?, Name = ?, Quantity = ?, ExpirationDate = ?, SurplusStatus = ?, Plan = ?, Price = ?, Location = ?, FoodGroup = ? WHERE ItemID = ?";
@@ -51,6 +53,7 @@ public class FoodItemDAO {
         }
     }
 
+    @Override
     public void claimFoodItem(int itemID, int userID) throws SQLException {
         String query = "UPDATE FoodItems SET UserID = ? WHERE ItemID = ?";
         try (Connection connection = DBConnection.getConnection();
@@ -63,6 +66,7 @@ public class FoodItemDAO {
         }
     }
 
+    @Override
     public void purchaseFoodItem(int itemID, int userID) throws SQLException {
         String query = "UPDATE FoodItems SET UserID = ?, Plan = 'keep' WHERE ItemID = ?";
         try (Connection connection = DBConnection.getConnection();
@@ -75,6 +79,7 @@ public class FoodItemDAO {
         }
     }
 
+    @Override
     public List<FoodItem> getFoodItemsByUser(int userId) {
         List<FoodItem> foodItems = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()) {
@@ -102,6 +107,36 @@ public class FoodItemDAO {
         }
         return foodItems;
     }
+
+    @Override
+    public List<FoodItem> getAllFoodItems() {
+        List<FoodItem> foodItems = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            String sql = "SELECT * FROM FoodItems";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                FoodItem foodItem = new FoodItem();
+                foodItem.setItemID(resultSet.getInt("ItemID"));
+                foodItem.setUserID(resultSet.getInt("UserID"));
+                foodItem.setName(resultSet.getString("Name"));
+                foodItem.setQuantity(resultSet.getInt("Quantity"));
+                foodItem.setExpirationDate(resultSet.getString("ExpirationDate"));
+                foodItem.setSurplusStatus(resultSet.getString("SurplusStatus"));
+                foodItem.setPlan(resultSet.getString("Plan"));
+                foodItem.setPrice(resultSet.getDouble("Price"));
+                foodItem.setLocation(resultSet.getString("Location"));
+                foodItem.setFoodGroup(resultSet.getString("FoodGroup"));
+                foodItems.add(foodItem);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foodItems;
+    }
+
+    @Override
     public FoodItem getFoodItemById(int itemID) throws SQLException {
         FoodItem foodItem = null;
         String query = "SELECT * FROM FoodItems WHERE ItemID = ?";

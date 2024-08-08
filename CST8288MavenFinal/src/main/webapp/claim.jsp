@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Claim Surplus Food</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+    
 </head>
 <body>
     <h2>Claim Surplus Food</h2>

@@ -10,7 +10,11 @@ import model.UserDTO;
 import service.SubscriptionService;
 
 public class SubscriptionsServlet extends HttpServlet {
-    private SubscriptionService subscriptionService = new SubscriptionService();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private SubscriptionService subscriptionService = new SubscriptionService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
