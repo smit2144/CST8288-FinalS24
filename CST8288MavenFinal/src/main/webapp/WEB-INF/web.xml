@@ -1,9 +1,10 @@
-<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee 
-                             https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" 
-         version="5.0">
-    <!-- Servlet Definitions -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <!-- Servlet for User Registration -->
     <servlet>
         <servlet-name>RegistrationServlet</servlet-name>
         <servlet-class>servlet.RegistrationServlet</servlet-class>
@@ -12,7 +13,8 @@
         <servlet-name>RegistrationServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
     </servlet-mapping>
-    
+
+    <!-- Servlet for User Login -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>servlet.LoginServlet</servlet-class>
@@ -21,18 +23,79 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
-    
+
+    <!-- Servlet for Handling Food Items -->
     <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>servlet.LogoutServlet</servlet-class>
+        <servlet-name>FoodItemServlet</servlet-name>
+        <servlet-class>servlet.FoodItemServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/Logout</url-pattern>
+        <servlet-name>FoodItemServlet</servlet-name>
+        <url-pattern>/FoodItem</url-pattern>
+    </servlet-mapping>
+
+    <!-- Servlet for User Subscriptions -->
+    <servlet>
+        <servlet-name>SubscriptionServlet</servlet-name>
+        <servlet-class>servlet.SubscriptionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubscriptionServlet</servlet-name>
+        <url-pattern>/Subscription</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Servlet for Inventory Management -->
+    <servlet>
+        <servlet-name>InventoryServlet</servlet-name>
+        <servlet-class>servlet.InventoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InventoryServlet</servlet-name>
+        <url-pattern>/InventoryServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Servlet for Adding Food Item -->
+    <servlet>
+        <servlet-name>AddFoodItemServlet</servlet-name>
+        <servlet-class>servlet.AddFoodItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddFoodItemServlet</servlet-name>
+        <url-pattern>/AddFoodItem</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Servlet for Claiming Food Item -->
+    <servlet>
+        <servlet-name>ClaimServlet</servlet-name>
+        <servlet-class>servlet.ClaimServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClaimServlet</servlet-name>
+        <url-pattern>/Claim</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Servlet for Purchasing Food Item -->
+    <servlet>
+        <servlet-name>PurchaseServlet</servlet-name>
+        <servlet-class>servlet.PurchaseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PurchaseServlet</servlet-name>
+        <url-pattern>/Purchase</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Servlet for Updating Food Item -->
+    <servlet>
+        <servlet-name>UpdateFoodItemServlet</servlet-name>
+        <servlet-class>servlet.UpdateFoodItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateFoodItemServlet</servlet-name>
+        <url-pattern>/UpdateFoodItem</url-pattern>
     </servlet-mapping>
 
     <!-- Welcome File List -->
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

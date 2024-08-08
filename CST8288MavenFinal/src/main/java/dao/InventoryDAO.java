@@ -1,15 +1,11 @@
 package dao;
 
-import model.InventoryDTO;
+import java.sql.SQLException;
+import java.util.List;
 
+import model.FoodItem;
 
-/**
- * interface to access and manage inventory data
- * This interface serves as a contract for classes implementing this interface
- * to provide inventory management functionality.
- * 
- * @author Hussein
- */
 public interface InventoryDAO {
-
+    void addFoodItem(FoodItem foodItem) throws SQLException;
+    List<FoodItem> getAllFoodItems() throws SQLException;
 }
